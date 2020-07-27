@@ -22,9 +22,9 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/mocks"
-	"github.com/looplab/eventhorizon/repo/version"
+	eh "github.com/MaxBreida/eventhorizon"
+	"github.com/MaxBreida/eventhorizon/mocks"
+	"github.com/MaxBreida/eventhorizon/repo/version"
 )
 
 func TestEventHandler_CreateModel(t *testing.T) {

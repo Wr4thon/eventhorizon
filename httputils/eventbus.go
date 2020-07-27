@@ -21,7 +21,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/websocket"
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/MaxBreida/eventhorizon"
 )
 
 var upgrader = websocket.Upgrader{} // use default options

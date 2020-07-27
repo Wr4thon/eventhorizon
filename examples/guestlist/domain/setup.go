@@ -18,12 +18,12 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/aggregatestore/events"
-	"github.com/looplab/eventhorizon/commandhandler/aggregate"
-	"github.com/looplab/eventhorizon/commandhandler/bus"
-	"github.com/looplab/eventhorizon/eventhandler/projector"
-	"github.com/looplab/eventhorizon/eventhandler/saga"
+	eh "github.com/MaxBreida/eventhorizon"
+	"github.com/MaxBreida/eventhorizon/aggregatestore/events"
+	"github.com/MaxBreida/eventhorizon/commandhandler/aggregate"
+	"github.com/MaxBreida/eventhorizon/commandhandler/bus"
+	"github.com/MaxBreida/eventhorizon/eventhandler/projector"
+	"github.com/MaxBreida/eventhorizon/eventhandler/saga"
 )
 
 // Setup configures the domain.

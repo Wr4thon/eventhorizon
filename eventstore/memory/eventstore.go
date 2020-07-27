@@ -22,7 +22,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/MaxBreida/eventhorizon"
 )
 
 // ErrCouldNotSaveAggregate is when an aggregate could not be saved.

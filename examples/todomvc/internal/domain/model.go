@@ -18,7 +18,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/MaxBreida/eventhorizon"
 )
 
 // TodoItem represents each item that can be completed in the todo list.

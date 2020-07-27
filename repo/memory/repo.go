@@ -19,7 +19,7 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/MaxBreida/eventhorizon"
 )
 
 type namespace string

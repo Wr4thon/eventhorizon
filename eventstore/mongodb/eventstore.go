@@ -29,9 +29,9 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 
 	// Register uuid.UUID as BSON type.
-	_ "github.com/looplab/eventhorizon/types/mongodb"
+	_ "github.com/MaxBreida/eventhorizon/types/mongodb"
 
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/MaxBreida/eventhorizon"
 )
 
 // ErrCouldNotDialDB is when the database could not be dialed.
