@@ -70,7 +70,7 @@ func NewHandler() (*Handler, error) {
 	dbURL = "mongodb://" + dbURL
 
 	// Create the event store.
-	eventStore, err := eventstore.NewEventStore(dbURL, "todomvc", "")
+	eventStore, err := eventstore.NewEventStore(dbURL, "todomvc")
 	if err != nil {
 		return nil, fmt.Errorf("could not create event store: %s", err)
 	}

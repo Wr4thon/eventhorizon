@@ -98,7 +98,7 @@ func (r *Repo) Find(ctx context.Context, id uuid.UUID) (eh.Entity, error) {
 		}
 	}
 
-	c := r.client.Database(r.dbName(ctx)).Collection(r.collection)
+	c := r.client.Database(r.dbPrefix).Collection(r.collName(ctx))
 
 	entity := r.factoryFn()
 	if err := c.FindOne(ctx, bson.M{"_id": id.String()}).Decode(entity); err == mongo.ErrNoDocuments {
@@ -126,7 +126,7 @@ func (r *Repo) FindAll(ctx context.Context) ([]eh.Entity, error) {
 		}
 	}
 
-	c := r.client.Database(r.dbName(ctx)).Collection(r.collection)
+	c := r.client.Database(r.dbPrefix).Collection(r.collName(ctx))
 
 	cursor, err := c.Find(ctx, bson.M{})
 	if err != nil {
@@ -197,7 +197,7 @@ func (r *Repo) FindCustomIter(ctx context.Context, f func(context.Context, *mong
 		}
 	}
 
-	c := r.client.Database(r.dbName(ctx)).Collection(r.collection)
+	c := r.client.Database(r.dbPrefix).Collection(r.collName(ctx))
 
 	cursor, err := f(ctx, c)
 	if err != nil {
@@ -233,7 +233,7 @@ func (r *Repo) FindCustom(ctx context.Context, f func(context.Context, *mongo.Co
 		}
 	}
 
-	c := r.client.Database(r.dbName(ctx)).Collection(r.collection)
+	c := r.client.Database(r.dbPrefix).Collection(r.collName(ctx))
 
 	cursor, err := f(ctx, c)
 	if err != nil {
@@ -282,7 +282,7 @@ func (r *Repo) Save(ctx context.Context, entity eh.Entity) error {
 		}
 	}
 
-	c := r.client.Database(r.dbName(ctx)).Collection(r.collection)
+	c := r.client.Database(r.dbPrefix).Collection(r.collName(ctx))
 
 	if _, err := c.UpdateOne(ctx,
 		bson.M{
@@ -304,7 +304,7 @@ func (r *Repo) Save(ctx context.Context, entity eh.Entity) error {
 
 // Remove implements the Remove method of the eventhorizon.WriteRepo interface.
 func (r *Repo) Remove(ctx context.Context, id uuid.UUID) error {
-	c := r.client.Database(r.dbName(ctx)).Collection(r.collection)
+	c := r.client.Database(r.dbPrefix).Collection(r.collName(ctx))
 
 	if r, err := c.DeleteOne(ctx, bson.M{"_id": id.String()}); err != nil {
 		return eh.RepoError{
@@ -323,7 +323,7 @@ func (r *Repo) Remove(ctx context.Context, id uuid.UUID) error {
 
 // Collection lets the function do custom actions on the collection.
 func (r *Repo) Collection(ctx context.Context, f func(context.Context, *mongo.Collection) error) error {
-	c := r.client.Database(r.dbName(ctx)).Collection(r.collection)
+	c := r.client.Database(r.dbPrefix).Collection(r.collName(ctx))
 
 	if err := f(ctx, c); err != nil {
 		return eh.RepoError{
@@ -342,7 +342,7 @@ func (r *Repo) SetEntityFactory(f func() eh.Entity) {
 
 // Clear clears the read model database.
 func (r *Repo) Clear(ctx context.Context) error {
-	c := r.client.Database(r.dbName(ctx)).Collection(r.collection)
+	c := r.client.Database(r.dbPrefix).Collection(r.collName(ctx))
 
 	if err := c.Drop(ctx); err != nil {
 		return eh.RepoError{
@@ -361,9 +361,18 @@ func (r *Repo) Close(ctx context.Context) {
 
 // dbName appends the namespace, if one is set, to the DB prefix to
 // get the name of the DB to use.
-func (r *Repo) dbName(ctx context.Context) string {
+//func (r *Repo) dbName(ctx context.Context) string {
+//	ns := eh.NamespaceFromContext(ctx)
+//
+//	return r.dbPrefix + "_" + ns
+//}
+
+// collName appends the namespace, if one is set, to the Collection to
+// get the name of the Collection to use.
+func (r *Repo) collName(ctx context.Context) string {
 	ns := eh.NamespaceFromContext(ctx)
-	return r.dbPrefix + "_" + ns
+
+	return ns + "_" + r.collection
 }
 
 // Repository returns a parent ReadRepo if there is one.

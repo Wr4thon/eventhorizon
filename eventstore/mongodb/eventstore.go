@@ -59,11 +59,10 @@ var ErrCouldNotSaveAggregate = errors.New("could not save aggregate")
 type EventStore struct {
 	client   *mongo.Client
 	dbPrefix string
-	collection string
 }
 
 // NewEventStore creates a new EventStore with a MongoDB URI: `mongodb://hostname`.
-func NewEventStore(uri, dbPrefix, collection string) (*EventStore, error) {
+func NewEventStore(uri, dbPrefix string) (*EventStore, error) {
 	opts := options.Client().ApplyURI(uri)
 	opts.SetWriteConcern(writeconcern.New(writeconcern.WMajority()))
 	opts.SetReadConcern(readconcern.Majority())
@@ -73,23 +72,18 @@ func NewEventStore(uri, dbPrefix, collection string) (*EventStore, error) {
 		return nil, ErrCouldNotDialDB
 	}
 
-	return NewEventStoreWithClient(client, dbPrefix, collection)
+	return NewEventStoreWithClient(client, dbPrefix)
 }
 
 // NewEventStoreWithClient creates a new EventStore with a client.
-func NewEventStoreWithClient(client *mongo.Client, dbPrefix, collection string) (*EventStore, error) {
+func NewEventStoreWithClient(client *mongo.Client, dbPrefix string) (*EventStore, error) {
 	if client == nil {
 		return nil, ErrNoDBClient
-	}
-
-	if collection != "" {
-		collection = collection + "_"
 	}
 
 	s := &EventStore{
 		client:   client,
 		dbPrefix: dbPrefix,
-		collection: collection,
 	}
 
 	return s, nil
@@ -135,7 +129,7 @@ func (s *EventStore) Save(ctx context.Context, events []eh.Event, originalVersio
 		version++
 	}
 
-	c := s.client.Database(s.dbName(ctx)).Collection(s.collection + "events")
+	c := s.client.Database(s.dbPrefix).Collection(s.collName(ctx))
 
 	// Either insert a new aggregate or append to an existing.
 	if originalVersion == 0 {
@@ -179,7 +173,7 @@ func (s *EventStore) Save(ctx context.Context, events []eh.Event, originalVersio
 
 // Load implements the Load method of the eventhorizon.EventStore interface.
 func (s *EventStore) Load(ctx context.Context, id uuid.UUID) ([]eh.Event, error) {
-	c := s.client.Database(s.dbName(ctx)).Collection(s.collection + "events")
+	c := s.client.Database(s.dbPrefix).Collection(s.collName(ctx))
 
 	var aggregate aggregateRecord
 	err := c.FindOne(ctx, bson.M{"_id": id}).Decode(&aggregate)
@@ -222,7 +216,7 @@ func (s *EventStore) Load(ctx context.Context, id uuid.UUID) ([]eh.Event, error)
 
 // Replace implements the Replace method of the eventhorizon.EventStore interface.
 func (s *EventStore) Replace(ctx context.Context, event eh.Event) error {
-	c := s.client.Database(s.dbName(ctx)).Collection(s.collection + "events")
+	c := s.client.Database(s.dbPrefix).Collection(s.collName(ctx))
 
 	// First check if the aggregate exists, the not found error in the update
 	// query can mean both that the aggregate or the event is not found.
@@ -265,7 +259,7 @@ func (s *EventStore) Replace(ctx context.Context, event eh.Event) error {
 
 // RenameEvent implements the RenameEvent method of the eventhorizon.EventStore interface.
 func (s *EventStore) RenameEvent(ctx context.Context, from, to eh.EventType) error {
-	c := s.client.Database(s.dbName(ctx)).Collection(s.collection + "events")
+	c := s.client.Database(s.dbPrefix).Collection(s.collName(ctx))
 
 	// Find and rename all events.
 	// TODO: Maybe use change info.
@@ -289,7 +283,7 @@ func (s *EventStore) RenameEvent(ctx context.Context, from, to eh.EventType) err
 
 // Clear clears the event storage.
 func (s *EventStore) Clear(ctx context.Context) error {
-	c := s.client.Database(s.dbName(ctx)).Collection(s.collection + "events")
+	c := s.client.Database(s.dbPrefix).Collection(s.collName(ctx))
 
 	if err := c.Drop(ctx); err != nil {
 		return eh.EventStoreError{
@@ -310,7 +304,16 @@ func (s *EventStore) Close(ctx context.Context) {
 // get the name of the Database to use.
 func (s *EventStore) dbName(ctx context.Context) string {
 	ns := eh.NamespaceFromContext(ctx)
+
 	return s.dbPrefix + "_" + ns
+}
+
+// collName appends the namespace, if one is set, to the Collection to
+// get the name of the Collection to use.
+func (s *EventStore) collName(ctx context.Context) string {
+	ns := eh.NamespaceFromContext(ctx)
+
+	return ns + "_events"
 }
 
 // aggregateRecord is the Database representation of an aggregate.

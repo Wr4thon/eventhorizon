@@ -20,6 +20,7 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
+
 	eh "github.com/MaxBreida/eventhorizon"
 )
 
