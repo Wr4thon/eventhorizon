@@ -1,4 +1,4 @@
-module github.com/looplab/eventhorizon
+module github.com/MaxBreida/eventhorizon
 
 go 1.14
 
