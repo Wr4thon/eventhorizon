@@ -42,7 +42,7 @@ func Example() {
 	url = "mongodb://" + url
 
 	// Create the event store.
-	eventStore, err := eventstore.NewEventStore(url, "demo")
+	eventStore, err := eventstore.NewEventStore(url, "demo", "")
 	if err != nil {
 		log.Fatalf("could not create event store: %s", err)
 	}

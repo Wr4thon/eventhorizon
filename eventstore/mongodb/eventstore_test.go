@@ -31,7 +31,7 @@ func TestEventStore(t *testing.T) {
 	}
 	url = "mongodb://" + url
 
-	store, err := NewEventStore(url, "test")
+	store, err := NewEventStore(url, "test", "")
 	if err != nil {
 		t.Fatal("there should be no error:", err)
 	}
