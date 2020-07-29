@@ -220,6 +220,64 @@ func (r *Repo) FindCustomIter(ctx context.Context, f func(context.Context, *mong
 	}, nil
 }
 
+// FindOneCustom returns a mongo single result
+func (r *Repo) FindOneCustom(ctx context.Context, f func(context.Context, *mongo.Collection) *mongo.SingleResult) (*mongo.SingleResult, error) {
+	if r.factoryFn == nil {
+		return nil, eh.RepoError{
+			Err:       ErrModelNotSet,
+			Namespace: eh.NamespaceFromContext(ctx),
+		}
+	}
+
+	c := r.client.Database(r.dbPrefix).Collection(r.collName(ctx))
+
+	singleResult := f(ctx, c)
+	if singleResult.Err() != nil {
+		return nil, eh.RepoError{
+			BaseErr:   singleResult.Err(),
+			Err:       ErrInvalidQuery,
+			Namespace: eh.NamespaceFromContext(ctx),
+		}
+	}
+	if singleResult == nil {
+		return nil, eh.RepoError{
+			Err:       ErrInvalidQuery,
+			Namespace: eh.NamespaceFromContext(ctx),
+		}
+	}
+
+	return singleResult, nil
+}
+
+func (r *Repo) FindOneCustomWithFilter(ctx context.Context, filter bson.M) (*mongo.SingleResult, error) {
+	if r.factoryFn == nil {
+		return nil, eh.RepoError{
+			Err:       ErrModelNotSet,
+			Namespace: eh.NamespaceFromContext(ctx),
+		}
+	}
+
+	c := r.client.Database(r.dbPrefix).Collection(r.collName(ctx))
+
+	singleResult := c.FindOne(ctx, filter)
+	if singleResult.Err() != nil {
+		return nil, eh.RepoError{
+			BaseErr:   singleResult.Err(),
+			Err:       ErrInvalidQuery,
+			Namespace: eh.NamespaceFromContext(ctx),
+		}
+	}
+	if singleResult == nil {
+		return nil, eh.RepoError{
+			Err:       ErrInvalidQuery,
+			Namespace: eh.NamespaceFromContext(ctx),
+		}
+	}
+
+	return singleResult, nil
+
+}
+
 // FindCustom uses a callback to specify a custom query for returning models.
 // It can also be used to do queries that does not map to the model by executing
 // the query in the callback and returning nil to block a second execution of
