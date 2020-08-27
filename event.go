@@ -24,6 +24,12 @@ import (
 	"github.com/google/uuid"
 )
 
+type AggregateRecord interface {
+	AggregateID() uuid.UUID
+	Version() int
+	Events() []Event
+}
+
 // EventType is the type of an event, used as its unique identifier.
 type EventType string
 

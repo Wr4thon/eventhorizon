@@ -18,8 +18,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/google/uuid"
 	eh "github.com/MaxBreida/eventhorizon"
+	"github.com/google/uuid"
 )
 
 func init() {
@@ -304,6 +304,12 @@ func (m *EventStore) Load(ctx context.Context, id uuid.UUID) ([]eh.Event, error)
 	m.Loaded = id
 	m.Context = ctx
 	return m.Events, nil
+}
+
+// Load implements the Load method of the eventhorizon.EventStore interface.
+func (m *EventStore) LoadAll(ctx context.Context) ([]eh.AggregateRecord, error) {
+	// TODO
+	return nil, nil
 }
 
 // Replace implements the Replace method of the eventhorizon.EventStore interface.

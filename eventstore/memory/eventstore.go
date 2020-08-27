@@ -21,8 +21,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/google/uuid"
 	eh "github.com/MaxBreida/eventhorizon"
+	"github.com/google/uuid"
 )
 
 // ErrCouldNotSaveAggregate is when an aggregate could not be saved.
@@ -33,6 +33,10 @@ type EventStore struct {
 	// The outer map is with namespace as key, the inner with aggregate ID.
 	db   map[string]map[uuid.UUID]aggregateRecord
 	dbMu sync.RWMutex
+}
+
+func (s *EventStore) LoadAll(ctx context.Context) ([]eh.AggregateRecord, error) {
+	panic("implement me")
 }
 
 // NewEventStore creates a new EventStore using memory as storage.

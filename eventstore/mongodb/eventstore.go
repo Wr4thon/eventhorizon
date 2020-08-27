@@ -171,6 +171,68 @@ func (s *EventStore) Save(ctx context.Context, events []eh.Event, originalVersio
 	return nil
 }
 
+// LoadAll implements the LoadAll method of the eventhorizon.EventStore interface.
+func (s *EventStore) LoadAll(ctx context.Context) ([]eh.AggregateRecord, error) {
+	c := s.client.Database(s.dbPrefix).Collection(s.collName(ctx))
+
+	var result []eh.AggregateRecord
+
+	cursor, err := c.Find(ctx, bson.M{})
+	if err == mongo.ErrNoDocuments {
+		return []eh.AggregateRecord{}, nil
+	} else if err != nil {
+		return nil, eh.EventStoreError{
+			Err:       err,
+			Namespace: eh.NamespaceFromContext(ctx),
+		}
+	}
+
+	for cursor.Next(ctx) {
+		var aggregate aggregateRecord
+		err := cursor.Decode(&aggregate)
+		if err != nil {
+			return nil, eh.EventStoreError{
+				Err:       err,
+				Namespace: eh.NamespaceFromContext(ctx),
+			}
+		}
+
+		events := make([]eh.Event, len(aggregate.Events))
+		for i, dbEvent := range aggregate.Events {
+			// Create an event of the correct type and decode from raw BSON.
+			if len(dbEvent.RawData) > 0 {
+				var err error
+				if dbEvent.data, err = eh.CreateEventData(dbEvent.EventType); err != nil {
+					return nil, eh.EventStoreError{
+						Err:       ErrCouldNotUnmarshalEvent,
+						BaseErr:   err,
+						Namespace: eh.NamespaceFromContext(ctx),
+					}
+				}
+				if err := bson.Unmarshal(dbEvent.RawData, dbEvent.data); err != nil {
+					return nil, eh.EventStoreError{
+						Err:       ErrCouldNotUnmarshalEvent,
+						BaseErr:   err,
+						Namespace: eh.NamespaceFromContext(ctx),
+					}
+				}
+				dbEvent.RawData = nil
+			}
+
+			events[i] = event{dbEvent: dbEvent}
+		}
+
+		record := record{
+			aggregateID: aggregate.AggregateID,
+			version:     aggregate.Version,
+			events:      events,
+		}
+		result = append(result, record)
+	}
+
+	return result, nil
+}
+
 // Load implements the Load method of the eventhorizon.EventStore interface.
 func (s *EventStore) Load(ctx context.Context, id uuid.UUID) ([]eh.Event, error) {
 	c := s.client.Database(s.dbPrefix).Collection(s.collName(ctx))
@@ -314,6 +376,26 @@ func (s *EventStore) collName(ctx context.Context) string {
 	ns := eh.NamespaceFromContext(ctx)
 
 	return ns + "_events"
+}
+
+// record is the private implementation of the eventhorizon.AggregateRecord interface
+// for a MongoDB aggregateRecord store.
+type record struct {
+	aggregateID uuid.UUID
+	version     int
+	events      []eh.Event
+}
+
+func (r record) AggregateID() uuid.UUID {
+	return r.aggregateID
+}
+
+func (r record) Version() int {
+	return r.version
+}
+
+func (r record) Events() []eh.Event {
+	return r.events
 }
 
 // aggregateRecord is the Database representation of an aggregate.

@@ -56,6 +56,9 @@ type EventStore interface {
 
 	// Load loads all events for the aggregate id from the store.
 	Load(context.Context, uuid.UUID) ([]Event, error)
+
+	// LoadAll loads all aggregates from the store.
+	LoadAll(ctx context.Context) ([]AggregateRecord, error)
 }
 
 // EventStoreMaintainer is an interface for a maintainer of an EventStore.
