@@ -389,6 +389,15 @@ func (r *Repo) FindAll(ctx context.Context) ([]eh.Entity, error) {
 	return r.Entities, nil
 }
 
+// FindAllWithFilter implements the FindAllWithFilter method of the eventhorizon.ReadRepo interface.
+func (r *Repo) FindAllWithFilter(ctx context.Context, filter interface{}) ([]eh.Entity, error) {
+	r.FindAllCalled = true
+	if r.LoadErr != nil {
+		return nil, r.LoadErr
+	}
+	return r.Entities, nil
+}
+
 // Save implements the Save method of the eventhorizon.ReadRepo interface.
 func (r *Repo) Save(ctx context.Context, entity eh.Entity) error {
 	r.SaveCalled = true

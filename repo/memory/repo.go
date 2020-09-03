@@ -18,8 +18,8 @@ import (
 	"context"
 	"sync"
 
-	"github.com/google/uuid"
 	eh "github.com/MaxBreida/eventhorizon"
+	"github.com/google/uuid"
 )
 
 type namespace string
@@ -68,6 +68,22 @@ func (r *Repo) Find(ctx context.Context, id uuid.UUID) (eh.Entity, error) {
 
 // FindAll implements the FindAll method of the eventhorizon.ReadRepo interface.
 func (r *Repo) FindAll(ctx context.Context) ([]eh.Entity, error) {
+	ns := r.namespace(ctx)
+
+	r.dbMu.RLock()
+	defer r.dbMu.RUnlock()
+	all := []eh.Entity{}
+	for _, id := range r.ids[ns] {
+		if m, ok := r.db[ns][id]; ok {
+			all = append(all, m)
+		}
+	}
+
+	return all, nil
+}
+
+// FindAllWithFilter implements the FindAllWithFilter method of the eventhorizon.ReadRepo interface.
+func (r *Repo) FindAllWithFilter(ctx context.Context, _ interface{}) ([]eh.Entity, error) {
 	ns := r.namespace(ctx)
 
 	r.dbMu.RLock()

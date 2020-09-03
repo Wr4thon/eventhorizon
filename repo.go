@@ -60,6 +60,9 @@ type ReadRepo interface {
 
 	// FindAll returns all entities in the repository.
 	FindAll(context.Context) ([]Entity, error)
+
+	// FindAllWithFilter returns all entities in the repository with given filter.
+	FindAllWithFilter(context.Context, interface{}) ([]Entity, error)
 }
 
 // WriteRepo is a write repository for entities.

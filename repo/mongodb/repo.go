@@ -158,6 +158,47 @@ func (r *Repo) FindAll(ctx context.Context) ([]eh.Entity, error) {
 	return result, nil
 }
 
+// FindAllWithFilter implements the FindAllWithFilter method of the eventhorizon.ReadRepo interface.
+func (r *Repo) FindAllWithFilter(ctx context.Context, filter interface{}) ([]eh.Entity, error) {
+	if r.factoryFn == nil {
+		return nil, eh.RepoError{
+			Err:       ErrModelNotSet,
+			Namespace: eh.NamespaceFromContext(ctx),
+		}
+	}
+
+	c := r.client.Database(r.dbPrefix).Collection(r.collName(ctx))
+
+	cursor, err := c.Find(ctx, filter)
+	if err != nil {
+		return nil, eh.RepoError{
+			Err:       err,
+			Namespace: eh.NamespaceFromContext(ctx),
+		}
+	}
+
+	result := []eh.Entity{}
+	for cursor.Next(ctx) {
+		entity := r.factoryFn()
+		if err := cursor.Decode(entity); err != nil {
+			return nil, eh.RepoError{
+				Err:       err,
+				Namespace: eh.NamespaceFromContext(ctx),
+			}
+		}
+		result = append(result, entity)
+	}
+
+	if err := cursor.Close(ctx); err != nil {
+		return nil, eh.RepoError{
+			Err:       err,
+			Namespace: eh.NamespaceFromContext(ctx),
+		}
+	}
+
+	return result, nil
+}
+
 // The iterator is not thread safe.
 type iter struct {
 	cursor    *mongo.Cursor
