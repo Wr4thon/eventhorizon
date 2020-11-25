@@ -19,7 +19,7 @@ import (
 	"errors"
 	"sync"
 
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/wr4thon/eventhorizon"
 )
 
 // ErrHandlerAlreadySet is when a handler is already registered for a command.

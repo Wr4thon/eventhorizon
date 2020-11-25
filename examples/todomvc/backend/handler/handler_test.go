@@ -27,18 +27,18 @@ import (
 
 	"github.com/google/uuid"
 
-	eh "github.com/looplab/eventhorizon"
-	gcpEventBus "github.com/looplab/eventhorizon/eventbus/gcp"
-	localEventBus "github.com/looplab/eventhorizon/eventbus/local"
-	"github.com/looplab/eventhorizon/eventhandler/waiter"
-	memoryEventStore "github.com/looplab/eventhorizon/eventstore/memory"
-	mongoEventStore "github.com/looplab/eventhorizon/eventstore/mongodb"
-	"github.com/looplab/eventhorizon/middleware/eventhandler/observer"
-	"github.com/looplab/eventhorizon/repo/memory"
-	"github.com/looplab/eventhorizon/repo/mongodb"
-	"github.com/looplab/eventhorizon/repo/version"
+	eh "github.com/wr4thon/eventhorizon"
+	gcpEventBus "github.com/wr4thon/eventhorizon/eventbus/gcp"
+	localEventBus "github.com/wr4thon/eventhorizon/eventbus/local"
+	"github.com/wr4thon/eventhorizon/eventhandler/waiter"
+	memoryEventStore "github.com/wr4thon/eventhorizon/eventstore/memory"
+	mongoEventStore "github.com/wr4thon/eventhorizon/eventstore/mongodb"
+	"github.com/wr4thon/eventhorizon/middleware/eventhandler/observer"
+	"github.com/wr4thon/eventhorizon/repo/memory"
+	"github.com/wr4thon/eventhorizon/repo/mongodb"
+	"github.com/wr4thon/eventhorizon/repo/version"
 
-	"github.com/looplab/eventhorizon/examples/todomvc/backend/domains/todo"
+	"github.com/wr4thon/eventhorizon/examples/todomvc/backend/domains/todo"
 )
 
 func TestStaticFiles(t *testing.T) {

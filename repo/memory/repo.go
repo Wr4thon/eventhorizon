@@ -21,7 +21,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/jinzhu/copier"
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/wr4thon/eventhorizon"
 )
 
 type namespace string

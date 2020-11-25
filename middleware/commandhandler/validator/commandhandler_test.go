@@ -21,8 +21,8 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/mocks"
+	eh "github.com/wr4thon/eventhorizon"
+	"github.com/wr4thon/eventhorizon/mocks"
 )
 
 func TestCommandHandler_Immediate(t *testing.T) {

@@ -19,7 +19,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/wr4thon/eventhorizon"
 )
 
 func TestContextMinVersion(t *testing.T) {

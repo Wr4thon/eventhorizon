@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/aggregatestore/events"
-	"github.com/looplab/eventhorizon/commandhandler/aggregate"
-	"github.com/looplab/eventhorizon/eventhandler/projector"
-	"github.com/looplab/eventhorizon/repo/memory"
-	"github.com/looplab/eventhorizon/repo/mongodb"
+	eh "github.com/wr4thon/eventhorizon"
+	"github.com/wr4thon/eventhorizon/aggregatestore/events"
+	"github.com/wr4thon/eventhorizon/commandhandler/aggregate"
+	"github.com/wr4thon/eventhorizon/eventhandler/projector"
+	"github.com/wr4thon/eventhorizon/repo/memory"
+	"github.com/wr4thon/eventhorizon/repo/mongodb"
 )
 
 // SetupDomain sets up the Todo domain.

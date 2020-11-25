@@ -29,9 +29,9 @@ import (
 	"google.golang.org/api/option"
 
 	// Register uuid.UUID as BSON type.
-	_ "github.com/looplab/eventhorizon/types/mongodb"
+	_ "github.com/wr4thon/eventhorizon/types/mongodb"
 
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/wr4thon/eventhorizon"
 )
 
 // DefaultQueueSize is the default queue size per handler for publishing events.

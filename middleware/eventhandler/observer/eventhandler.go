@@ -19,7 +19,7 @@ import (
 	"os"
 
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/wr4thon/eventhorizon"
 )
 
 // Group provides groupings of observers by different criteria.

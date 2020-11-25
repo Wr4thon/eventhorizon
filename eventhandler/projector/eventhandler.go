@@ -18,8 +18,8 @@ import (
 	"context"
 	"errors"
 
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/repo/version"
+	eh "github.com/wr4thon/eventhorizon"
+	"github.com/wr4thon/eventhorizon/repo/version"
 )
 
 // EventHandler is a CQRS projection handler to run a Projector implementation.

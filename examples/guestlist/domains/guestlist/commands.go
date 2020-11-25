@@ -16,7 +16,7 @@ package guestlist
 
 import (
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/wr4thon/eventhorizon"
 )
 
 func init() {

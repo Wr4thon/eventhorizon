@@ -20,7 +20,7 @@ import (
 	"sync"
 
 	"github.com/jinzhu/copier"
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/wr4thon/eventhorizon"
 )
 
 // DefaultQueueSize is the default queue size per handler for publishing events.

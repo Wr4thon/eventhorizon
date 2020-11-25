@@ -25,9 +25,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/kr/pretty"
 
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/middleware/eventhandler/observer"
-	"github.com/looplab/eventhorizon/mocks"
+	eh "github.com/wr4thon/eventhorizon"
+	"github.com/wr4thon/eventhorizon/middleware/eventhandler/observer"
+	"github.com/wr4thon/eventhorizon/mocks"
 )
 
 // AcceptanceTest is the acceptance test that all implementations of EventBus

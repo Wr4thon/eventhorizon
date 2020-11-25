@@ -22,7 +22,7 @@ import (
 	"sync"
 
 	"github.com/gorilla/websocket"
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/wr4thon/eventhorizon"
 )
 
 // EventBusHandler is a simple event handler for observing events.

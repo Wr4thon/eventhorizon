@@ -15,7 +15,7 @@
 package model
 
 import (
-	eh "github.com/looplab/eventhorizon"
+	eh "github.com/wr4thon/eventhorizon"
 )
 
 // SliceEventSource is an eh.EventSource using a slice to store events.

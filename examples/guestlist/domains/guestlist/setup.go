@@ -19,13 +19,13 @@ import (
 	"log"
 
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/aggregatestore/events"
-	"github.com/looplab/eventhorizon/commandhandler/aggregate"
-	"github.com/looplab/eventhorizon/commandhandler/bus"
-	"github.com/looplab/eventhorizon/eventhandler/projector"
-	"github.com/looplab/eventhorizon/eventhandler/saga"
-	"github.com/looplab/eventhorizon/middleware/eventhandler/observer"
+	eh "github.com/wr4thon/eventhorizon"
+	"github.com/wr4thon/eventhorizon/aggregatestore/events"
+	"github.com/wr4thon/eventhorizon/commandhandler/aggregate"
+	"github.com/wr4thon/eventhorizon/commandhandler/bus"
+	"github.com/wr4thon/eventhorizon/eventhandler/projector"
+	"github.com/wr4thon/eventhorizon/eventhandler/saga"
+	"github.com/wr4thon/eventhorizon/middleware/eventhandler/observer"
 )
 
 // Setup configures the guestlist.

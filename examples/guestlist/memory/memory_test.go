@@ -22,12 +22,12 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/commandhandler/bus"
-	eventbus "github.com/looplab/eventhorizon/eventbus/local"
-	eventstore "github.com/looplab/eventhorizon/eventstore/memory"
-	"github.com/looplab/eventhorizon/examples/guestlist/domains/guestlist"
-	repo "github.com/looplab/eventhorizon/repo/memory"
+	eh "github.com/wr4thon/eventhorizon"
+	"github.com/wr4thon/eventhorizon/commandhandler/bus"
+	eventbus "github.com/wr4thon/eventhorizon/eventbus/local"
+	eventstore "github.com/wr4thon/eventhorizon/eventstore/memory"
+	"github.com/wr4thon/eventhorizon/examples/guestlist/domains/guestlist"
+	repo "github.com/wr4thon/eventhorizon/repo/memory"
 )
 
 func Example() {

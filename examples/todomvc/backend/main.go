@@ -23,15 +23,15 @@ import (
 
 	"github.com/google/uuid"
 
-	eh "github.com/looplab/eventhorizon"
-	gcpEventBus "github.com/looplab/eventhorizon/eventbus/gcp"
-	mongoEventStore "github.com/looplab/eventhorizon/eventstore/mongodb"
-	"github.com/looplab/eventhorizon/middleware/eventhandler/observer"
-	version "github.com/looplab/eventhorizon/repo/cache"
-	"github.com/looplab/eventhorizon/repo/mongodb"
+	eh "github.com/wr4thon/eventhorizon"
+	gcpEventBus "github.com/wr4thon/eventhorizon/eventbus/gcp"
+	mongoEventStore "github.com/wr4thon/eventhorizon/eventstore/mongodb"
+	"github.com/wr4thon/eventhorizon/middleware/eventhandler/observer"
+	version "github.com/wr4thon/eventhorizon/repo/cache"
+	"github.com/wr4thon/eventhorizon/repo/mongodb"
 
-	"github.com/looplab/eventhorizon/examples/todomvc/backend/domains/todo"
-	"github.com/looplab/eventhorizon/examples/todomvc/backend/handler"
+	"github.com/wr4thon/eventhorizon/examples/todomvc/backend/domains/todo"
+	"github.com/wr4thon/eventhorizon/examples/todomvc/backend/handler"
 )
 
 func main() {

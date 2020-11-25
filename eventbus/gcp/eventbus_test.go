@@ -21,7 +21,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/looplab/eventhorizon/eventbus"
+	"github.com/wr4thon/eventhorizon/eventbus"
 )
 
 func TestEventBus(t *testing.T) {

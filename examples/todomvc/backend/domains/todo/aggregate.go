@@ -21,8 +21,8 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/aggregatestore/events"
+	eh "github.com/wr4thon/eventhorizon"
+	"github.com/wr4thon/eventhorizon/aggregatestore/events"
 )
 
 func init() {

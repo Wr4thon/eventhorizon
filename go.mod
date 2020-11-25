@@ -1,4 +1,4 @@
-module github.com/looplab/eventhorizon
+module github.com/wr4thon/eventhorizon
 
 go 1.15
 

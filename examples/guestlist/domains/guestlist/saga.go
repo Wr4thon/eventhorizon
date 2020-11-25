@@ -19,8 +19,8 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/eventhandler/saga"
+	eh "github.com/wr4thon/eventhorizon"
+	"github.com/wr4thon/eventhorizon/eventhandler/saga"
 )
 
 // ResponseSagaType is the type of the saga.

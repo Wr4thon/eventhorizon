@@ -21,8 +21,8 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
-	eh "github.com/looplab/eventhorizon"
-	"github.com/looplab/eventhorizon/eventhandler/projector"
+	eh "github.com/wr4thon/eventhorizon"
+	"github.com/wr4thon/eventhorizon/eventhandler/projector"
 )
 
 // Invitation is a read model object for an invitation.
